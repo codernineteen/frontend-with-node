@@ -1,0 +1,32 @@
+label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.form-input-username,
+.form-input-age {
+  margin-bottom: 1rem;
+  width: 100%;
+  border: 1px solid #ccc;
+}
+
+.form-input-username:focus,
+.form-input-age:focus {
+  outline: none;
+  border: 2.5px solid #70a7db;
+}
+
+button {
+  border: none;
+  background-color: #70a7db;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 500;
+  padding: 0.5rem 1.5rem;
+}
+
+button:hover {
+  background-color: #4c7091;
+}

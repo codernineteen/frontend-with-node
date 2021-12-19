@@ -1,0 +1,12 @@
+.form-result-item {
+  padding: 0 1rem;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.form-result-item p {
+  font-size: 1.3rem;
+  text-transform: capitalize;
+  font-weight: 700;
+}
