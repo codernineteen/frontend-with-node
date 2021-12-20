@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../../context/auth-context";
+import Input from "../UI/Input/Input";
 
 const Login = (props) => {
-  const [enteredPassword, setEnteredPassword] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState();
+  // const [enteredPassword, setEnteredPassword] = useState("");
+  // const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
+  const authCtx = useContext(AuthContext);
 
   const emailReducer = (state, action) => {
     if (action.type === "USER_INPUT") {
@@ -39,32 +42,27 @@ const Login = (props) => {
     isValid: null,
   });
 
-  // useEffect(() => {
-  //   const identifier = setTimeout(() => {
-  //     console.log("checking form validity");
-  //     setFormIsValid(
-  //       enteredEmail.includes("@") && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
+  const { isValid: isEmailValid } = emailState;
+  const { isValid: isPwdValid } = passwordState;
 
-  //   return () => {
-  //     console.log("clean up");
-  //     clearTimeout(identifier);
-  //   };
-  // }, [enteredEmail, enteredPassword]);
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log("checking form validity");
+      setFormIsValid(isEmailValid && isPwdValid);
+    }, 500);
+
+    return () => {
+      console.log("clean up");
+      clearTimeout(identifier);
+    };
+  }, [isEmailValid, isPwdValid]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({ type: "USER_INPUT", val: event.target.value });
-
-    setFormIsValid(
-      emailState.value.includes("@") && passwordState.value.trim().length > 6
-    );
   };
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({ type: "USER_INPUT", val: event.target.value });
-
-    setFormIsValid(emailState.isValid && passwordState.value.trim().length > 6);
   };
 
   const validateEmailHandler = () => {
@@ -78,40 +76,31 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    authCtx.onLogin(emailState.value, passwordState.value);
   };
 
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
-        <div
-          className={`${classes.control} ${
-            emailState.isValid === false ? classes.invalid : ""
-          }`}
-        >
-          <label htmlFor="email">E-Mail</label>
-          <input
-            type="email"
-            id="email"
-            value={emailState.value}
-            onChange={emailChangeHandler}
-            onBlur={validateEmailHandler}
-          />
-        </div>
-        <div
-          className={`${classes.control} ${
-            passwordState.isValid === false ? classes.invalid : ""
-          }`}
-        >
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={passwordState.value}
-            onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
-          />
-        </div>
+        <Input
+          id="email"
+          label="E-mail"
+          type="email"
+          isValid={isEmailValid}
+          value={emailState.value}
+          onChange={emailChangeHandler}
+          onBlur={validateEmailHandler}
+        ></Input>
+        <Input
+          id="password"
+          label="Password"
+          type="password"
+          isValid={isPwdValid}
+          value={passwordState.value}
+          onChange={passwordChangeHandler}
+          onBlur={validatePasswordHandler}
+        ></Input>
+
         <div className={classes.actions}>
           <Button type="submit" className={classes.btn} disabled={!formIsValid}>
             Login
