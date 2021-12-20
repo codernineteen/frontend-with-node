@@ -7,3 +7,31 @@
   justify-content: center;
   align-items: center;
 }
+
+.modal-body {
+  height: 20rem;
+  width: 50%;
+  border-radius: 2rem;
+  background-color: #fff;
+}
+
+.modal-title {
+  height: 7rem;
+  padding-top: 2.5rem;
+  padding-left: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background-color: #70a7db;
+  color: #fff;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+}
+
+.modal-content {
+  height: 9.5rem;
+}
+
+.exit {
+  margin-left: 85%;
+  margin-bottom: 1rem;
+}
